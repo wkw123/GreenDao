@@ -6,6 +6,8 @@ import com.student.entity.Student;
 
 import java.util.List;
 
+import de.greenrobot.dao.query.QueryBuilder;
+
 /**完成对某一张表的具体操作，
  * Created by Administrator on 2016/11/8.
  */
@@ -67,6 +69,29 @@ public class CommonUtils {
             e.printStackTrace();
         }
         return flag;
+    }
+
+    public List<Student> getAll(){
+      return daoManager.getDaoSession().loadAll(Student.class);
+    }
+
+    public Student getOneStudent(long key){
+        return daoManager.getDaoSession().load(Student.class, key);
+    }
+
+    /**
+     * 使用nativa sql语句进行查询
+     */
+    public void query1(){
+        List<Student> list = daoManager.getDaoSession().queryRaw(Student.class, "where name like ? and _id > ?", new String[]{"%李%", "1001"});
+    }
+
+    public void query2(){
+        /**
+         * 查询构建器
+         */
+        QueryBuilder<Student> builder = daoManager.getDaoSession().queryBuilder(Student.class);
+
     }
 
 }
